@@ -15,7 +15,10 @@ def percent_amplitude(x, base=10., exponent=-0.4):
     x=10^(-0.4*y), corresponding to units of magnitudes. Computations are
     performed on the corresponding linear-scale values.
     """
-    linear_scale_data = base ** (exponent * x)
+    if np.mean(x) > 40:
+        linear_scale_data = x
+    else:
+        linear_scale_data = base ** (exponent * x)
     y_max = np.max(linear_scale_data)
     y_min = np.min(linear_scale_data)
     y_med = np.median(linear_scale_data)
@@ -32,7 +35,10 @@ def percent_difference_flux_percentile(x, base=10., exponent=-0.4):
     x=10^(-0.4*y), corresponding to units of magnitudes. Computations are
     performed on the corresponding linear-scale values.
     """
-    linear_scale_data = base ** (exponent * x)
+    if np.mean(x) > 40:
+        linear_scale_data = x
+    else:
+        linear_scale_data = base ** (exponent * x)
     y_95, y_50, y_5 = np.percentile(linear_scale_data, [95, 50, 5])
     return (y_95 - y_5) / y_50
 
@@ -45,7 +51,10 @@ def flux_percentile_ratio(x, percentile_range, base=10., exponent=-0.4):
     x=10^(-0.4*y), corresponding to units of magnitudes. Computations are
     performed on the corresponding linear-scale values.
     """
-    linear_scale_data = base ** (exponent * x)
+    if np.mean(x) > 40:
+        linear_scale_data = x
+    else:
+        linear_scale_data = base ** (exponent * x)
     y_high, y_low, y_95, y_5 = np.percentile(linear_scale_data,
             [50 + percentile_range / 2., 50 - percentile_range / 2., 95, 5])
     return (y_high - y_low) / (y_95 - y_5)
